@@ -301,15 +301,23 @@ public class AWTGVTFont implements GVTFont {
             Shape outline = gv.getGlyphOutline(glyphIndex);
             GlyphMetrics metrics = gv.getGlyphMetrics(glyphIndex);
             Rectangle2D gmB = metrics.getBounds2D();
+//            gmB.setRect(gmB.getX(), gmB.getY(), gmB.getWidth(), gmB.getHeight() + 50); //RAMANQ
+            
+            
+            
             if (AWTGVTGlyphVector.outlinesPositioned()) {
                 AffineTransform tr = AffineTransform.getTranslateInstance
                     (-glyphPos.getX(), -glyphPos.getY());
                 outline = tr.createTransformedShape(outline);
             }
+            
+//            gmB.setRect(gmB.getX(), gmB.getY(), gmB.getWidth(), gmB.getHeight() + 50); //RAMANQ
+            
             v = new AWTGlyphGeometryCache.Value(outline, gmB);
             //System.out.println("put "+font.awtFont+" "+c);
             glyphCache.put(c, v);
         }
+        
         return v;
     }
 

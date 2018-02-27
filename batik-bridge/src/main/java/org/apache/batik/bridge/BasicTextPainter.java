@@ -82,7 +82,8 @@ public abstract class BasicTextPainter implements TextPainter {
      * @param node the TextNode to measure
      */
     public Rectangle2D getGeometryBounds(TextNode node) {
-        return getOutline(node).getBounds2D();
+        return getBounds2D(node); //RAMANQ!
+//        return getOutline(node).getBounds2D();
     }
 
     /**
