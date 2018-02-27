@@ -82,14 +82,14 @@ public abstract class BasicTextPainter implements TextPainter {
      * @param node the TextNode to measure
      */
     public Rectangle2D getGeometryBounds(TextNode node) {
-        String prProp = System.getProperty("PR-text-bg-fix");
-        
-        if (prProp != null && !prProp.isEmpty()) {
-            return getBounds2D(node); 
-        }
+        String compatProp = System.getProperty("BATIK-COMPAT-TIGHT-TEXT-BOUNDS");
         
         //old way
-        return getOutline(node).getBounds2D();
+        if (compatProp != null && !compatProp.isEmpty()) {
+            return getOutline(node).getBounds2D();
+        }
+        
+        return getBounds2D(node); 
     }
 
     /**
