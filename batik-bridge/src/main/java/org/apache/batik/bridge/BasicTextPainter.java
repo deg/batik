@@ -82,7 +82,14 @@ public abstract class BasicTextPainter implements TextPainter {
      * @param node the TextNode to measure
      */
     public Rectangle2D getGeometryBounds(TextNode node) {
-        return getOutline(node).getBounds2D();
+        String compatEnv = System.getenv("BATIK_COMPAT_TIGHT_TEXT_BOUNDS");
+        
+        //old way
+        if (compatEnv != null && !compatEnv.isEmpty()) {
+            return getOutline(node).getBounds2D();
+        }
+        
+        return getBounds2D(node); 
     }
 
     /**
