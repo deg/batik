@@ -719,7 +719,7 @@ public class StrokingTextPainter extends BasicTextPainter {
                                 lastLineMetrics.getDescent()))/2;
         float lastW = (float)(lastBounds.getWidth()  + lastBounds.getX());
         float lastH = (float)(halfLeading + lastLineMetrics.getAscent() +
-                              (lastBounds.getHeight() + lastBounds.getY()));
+                (lastBounds.getHeight() + lastBounds.getY()));
         Point2D visualAdvance;
 
         if (!doAdjust) {

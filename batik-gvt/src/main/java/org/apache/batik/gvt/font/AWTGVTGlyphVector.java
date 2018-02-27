@@ -207,6 +207,20 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
             (bounds2D.getHeight() == 0))
             bounds2D = null;
 
+        double transformedHeight = scaleFactor * (ascent + descent);
+
+        Point2D firstGlyphPos = glyphPositions[0];
+        
+        //get default if nothing
+        if (firstGlyphPos == null) {
+            firstGlyphPos = defaultGlyphPositions[0];
+        }
+        
+        double newY = (firstGlyphPos.getY() - ascent) * scaleFactor;
+
+        //add fix to the boundingBox using font size 
+        bounds2D.setRect(bounds2D.getX(), newY, bounds2D.getWidth(), transformedHeight);
+
         return bounds2D;
     }
 
