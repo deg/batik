@@ -32,6 +32,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.text.AttributedCharacterIterator;
 import java.text.CharacterIterator;
 
@@ -76,8 +79,10 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
     private double scaleFactor;
     private float ascent;
     private float descent;
+    private float leading;
     private TextPaintInfo cacheTPI;
-
+    //RAMANQ!
+    private GVTLineMetrics lineMetrics;
     /**
      * Creates and new AWTGVTGlyphVector from the specified GlyphVector and
      * AWTGVTFont objects.
@@ -101,12 +106,13 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
         this.scaleFactor = scaleFactor;
         this.ci = ci;
 
-        GVTLineMetrics lineMetrics = gvtFont.getLineMetrics
+        this.lineMetrics = gvtFont.getLineMetrics
             ("By", awtGlyphVector.getFontRenderContext());
 
         ascent  = lineMetrics.getAscent();
         descent = lineMetrics.getDescent();
-
+        leading = lineMetrics.getLeading();
+        
         outline       = null;
         visualBounds  = null;
         logicalBounds = null;
@@ -181,7 +187,7 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
         cacheTPI = new TextPaintInfo(tpi);
         Shape outline = null;
         if (tpi.fillPaint != null) {
-            outline = getOutline();
+            outline = getOutline(); //RAMANQ!
             bounds2D = outline.getBounds2D();
         }
 
@@ -207,6 +213,56 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
             (bounds2D.getHeight() == 0))
             bounds2D = null;
 
+        double myAscent = Math.abs(ascent);
+        double myDescent = Math.abs(descent);
+        
+        double transformedHeight = scaleFactor * (myAscent + myDescent);
+//        double minGHeight = 0d;
+//        
+//        for (int i=0; i < getNumGlyphs();i++) {
+//            Rectangle2D gBounds = getGlyphCellBounds(i);
+//            minGHeight = Math.min(gBounds.getHeight(), minGHeight);
+//        }
+        PrintWriter out = null;
+        
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter("rq.log", true)));
+        } catch (Exception e) {
+        }
+        
+        double newY = bounds2D.getY();//baseY - ascent;
+//        final double EPSILON = scaleFactor * 2;
+        
+        if (bounds2D.getHeight() <= myAscent * scaleFactor) {
+            newY = newY - Math.abs(transformedHeight - bounds2D.getHeight()) + scaleFactor * (myDescent - 2);
+        } else {
+//            newY = newY - scaleFactor * ascent;
+            newY = newY - descent * scaleFactor;
+        }
+        
+        out.println(transformedHeight + " " + newY + " sum = " + (newY + transformedHeight));
+        out.flush();
+        out.close();
+        
+//        if (Math.floor(Math.abs(transformedHeight/2 - bounds2D.getHeight()) - EPSILON) == 0d) {
+//            newY -= Math.abs(transformedHeight - bounds2D.getHeight()) / 2;
+//        } else {
+//            if (bounds2D.getHeight() < ascent) {
+//                newY -= scaleFactor * ascent;
+//            } else {
+//                
+//            }
+//        }
+        
+//        if (transformedHeight - bounds2D.getHeight() >= ascent /2) {
+//            newY -= descent;//Math.abs(transformedHeight - bounds2D.getHeight()) / 2;
+//        }
+        //add fix to the boundingBox using font size 
+        bounds2D.setRect(bounds2D.getX(), newY, bounds2D.getWidth(), transformedHeight);
+        //RAMANQ!
+        
+        
+        
         return bounds2D;
     }
 

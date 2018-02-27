@@ -1813,7 +1813,7 @@ public class GlyphLayout implements TextSpanLayout {
             // calculate the center line position for the glyph
             Rectangle2D glyphBounds = gv.getGlyphOutline(i).getBounds2D();
             float glyphWidth = (float) glyphBounds.getWidth();
-            float glyphHeight = (float) glyphBounds.getHeight();
+            float glyphHeight = (float) glyphBounds.getHeight();// + 100; //RAMANQ
             float glyphMidX = 0;
             if (glyphWidth > 0) {
                 glyphMidX  = (float)(glyphBounds.getX()+glyphWidth/2f);

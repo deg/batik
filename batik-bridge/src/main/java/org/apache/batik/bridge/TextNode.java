@@ -298,6 +298,7 @@ public class TextNode extends AbstractGraphicsNode implements Selectable {
                 outline = textPainter.getOutline(this);
             }
         }
+        
         return outline;
     }
 
