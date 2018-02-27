@@ -77,6 +77,7 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
     private float ascent;
     private float descent;
     private TextPaintInfo cacheTPI;
+
     /**
      * Creates and new AWTGVTGlyphVector from the specified GlyphVector and
      * AWTGVTFont objects.
@@ -105,7 +106,7 @@ public class AWTGVTGlyphVector implements GVTGlyphVector {
 
         ascent  = lineMetrics.getAscent();
         descent = lineMetrics.getDescent();
-        
+
         outline       = null;
         visualBounds  = null;
         logicalBounds = null;

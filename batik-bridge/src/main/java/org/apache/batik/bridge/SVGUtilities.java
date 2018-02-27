@@ -1123,7 +1123,7 @@ public abstract class SVGUtilities implements SVGConstants, ErrorConstants {
                 x = bounds.getX() + x*bounds.getWidth();
                 y = bounds.getY() + y*bounds.getHeight();
                 w *= bounds.getWidth();
-                h *= bounds.getHeight(); //+ 100;
+                h *= bounds.getHeight();
             } else {
                 x = y = w = h = 0;
             }

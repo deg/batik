@@ -718,10 +718,8 @@ public class StrokingTextPainter extends BasicTextPainter {
                                (lastLineMetrics.getAscent() +
                                 lastLineMetrics.getDescent()))/2;
         float lastW = (float)(lastBounds.getWidth()  + lastBounds.getX());
-        float lastH = (float)(halfLeading + 
-                                lastLineMetrics.getAscent() +
-//                                lastLineMetrics.getDescent() + 
-                              (lastBounds.getHeight() + lastBounds.getY()));
+        float lastH = (float)(halfLeading + lastLineMetrics.getAscent() +
+                (lastBounds.getHeight() + lastBounds.getY()));
         Point2D visualAdvance;
 
         if (!doAdjust) {
@@ -900,8 +898,7 @@ public class StrokingTextPainter extends BasicTextPainter {
             GVTLineMetrics lineMetrics = layout.getLineMetrics();
             double ascent = lineMetrics.getAscent();
             double descent = lineMetrics.getDescent();
-            double leading = lineMetrics.getLeading();
-            double emHeight = ascent + descent + leading;
+            double emHeight = ascent + descent;
             GVTGlyphVector gv = layout.getGlyphVector();
             Point2D firstPosition = gv.getGlyphPosition(0);
             Map textAttributes = node.getTextAttributes();
